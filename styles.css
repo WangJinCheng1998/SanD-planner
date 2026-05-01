@@ -321,6 +321,31 @@ h1 {
   text-underline-offset: 4px;
 }
 
+.author-list a.author-entry {
+  position: relative;
+  padding-right: 0.1em;
+  text-decoration: none;
+}
+
+.author-name {
+  text-decoration: underline;
+  text-decoration-color: rgba(8, 102, 255, 0.24);
+  text-underline-offset: 4px;
+}
+
+.author-note {
+  color: var(--muted);
+  font-size: 0.58em;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+  opacity: 0.72;
+  position: relative;
+  top: -0.45em;
+  margin-left: 3px;
+  text-decoration: none;
+}
+
 .affiliations {
   display: flex;
   flex-wrap: wrap;
@@ -407,6 +432,10 @@ h1 {
   font-size: 0.72em;
   font-weight: 750;
   opacity: 0.82;
+}
+
+.email-button {
+  text-align: center;
 }
 
 .button.compact {
