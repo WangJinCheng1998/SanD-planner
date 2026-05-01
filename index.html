@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SanD-Planner | Project Page</title>
+    <meta
+      name="description"
+      content="RSS 2026 project page for SanD-Planner, a sample-efficient diffusion planner in B-spline space for robust local navigation."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=results-highlight-1" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Project home">
+        <span class="brand-mark" aria-hidden="true">
+          <img class="sand-logo" src="./assets/sand-logo.svg?v=4" alt="" />
+        </span>
+        <span>SanD-Planner</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#abstract"><i data-lucide="file-text" aria-hidden="true"></i>Abstract</a>
+        <a href="#method"><i data-lucide="route" aria-hidden="true"></i>Method</a>
+        <a href="#spline-why"><i data-lucide="activity" aria-hidden="true"></i>Spline</a>
+        <a href="#videos"><i data-lucide="play" aria-hidden="true"></i>Videos</a>
+        <a href="#results"><i data-lucide="bar-chart-3" aria-hidden="true"></i>Results</a>
+        <a href="#citation"><i data-lucide="quote" aria-hidden="true"></i>Cite</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="venue">RSS 2026 · Robotics: Science and Systems · Accepted</p>
+          <h1>SanD-Planner: Sample-Efficient Diffusion Planner in B-Spline Space for Robust Local Navigation</h1>
+          <p class="subtitle">
+            A depth-only local planner that learns smooth B-spline trajectories with limited expert
+            demonstrations, then selects safe candidates through an explicit ESDF-based critic.
+          </p>
+
+          <div class="author-list" aria-label="Authors">
+            <a href="#">Jincheng Wang</a>
+            <a href="#">Lingfan Bao</a>
+            <a href="#">Tong Yang</a>
+            <a href="#">Diego Martinez Plasencia</a>
+            <a href="#">Jianhao Jiao</a>
+            <a href="#">Dimitrios Kanoulas</a>
+          </div>
+
+          <div class="affiliations">
+            <span>Department of Computer Science</span>
+            <span>University College London</span>
+          </div>
+
+          <div class="actions" aria-label="Project links">
+            <button class="button primary github-button" type="button" disabled aria-label="GitHub repository coming soon">
+              <svg class="github-mark" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.2-3.08-.12-.29-.52-1.46.11-3.04 0 0 .98-.31 3.2 1.18.93-.26 1.93-.39 2.93-.39s2 .13 2.93.39c2.22-1.49 3.2-1.18 3.2-1.18.63 1.58.23 2.75.11 3.04.75.8 1.2 1.82 1.2 3.08 0 4.42-2.69 5.38-5.25 5.67.42.36.79 1.07.79 2.16v3.2c0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+              </svg>
+              <span class="button-label">
+                <span>GitHub</span>
+                <small>(coming soon)</small>
+              </span>
+            </button>
+            <a class="button" href="https://arxiv.org/pdf/2602.00923" target="_blank" rel="noreferrer">
+              <i data-lucide="file-text" aria-hidden="true"></i>
+              Paper
+            </a>
+            <a class="button" href="https://arxiv.org/abs/2602.00923" target="_blank" rel="noreferrer">
+              <i data-lucide="external-link" aria-hidden="true"></i>
+              arXiv
+            </a>
+          </div>
+        </div>
+
+        <figure class="hero-figure hero-logo-panel" aria-label="SanD visual identity">
+          <img class="hero-logo-art" src="./assets/hero-sand-logo.png?v=1" alt="SanD logo" />
+        </figure>
+      </section>
+
+      <section class="metrics-band" aria-label="Key metrics">
+        <div class="metrics-summary" aria-label="Key metrics">
+          <article class="metric-theme">
+            <span class="metric word-metric">Data Desert</span>
+            <span class="label">the low-demonstration regime</span>
+          </article>
+          <article class="metric-stat">
+            <span class="metric">500</span>
+            <span class="label">expert episodes to cross it</span>
+          </article>
+          <article class="metric-stat">
+            <span class="metric">90.1%</span>
+            <span class="label">success in cluttered simulation</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section intro" id="abstract">
+        <canvas class="sand-canvas" aria-hidden="true"></canvas>
+        <div class="section-heading">
+          <p>Abstract</p>
+        </div>
+        <div class="section-body">
+          <p>
+            The challenge of generating reliable local plans has long hindered practical applications
+            in highly cluttered and dynamic environments. Key fundamental bottlenecks include acquiring
+            large-scale expert demonstrations across diverse scenes and improving learning efficiency
+            with limited data. This paper proposes SanD-Planner, a sample-efficient diffusion-based
+            local planner that conducts depth image-based imitation learning within the clamped
+            B-spline space. By operating within this compact space, the proposed algorithm inherently yields smooth
+            outputs with bounded prediction errors over local supports, naturally aligning with
+            receding-horizon execution. Integration of an ESDF-based safety checker with explicit
+            clearance and time-to-completion metrics further reduces the training burden associated
+            with value-function learning for feasibility assessment. Experiments show that training with 500 episodes, merely 0.25% of the demonstration scale
+            used by the baseline, SanD-Planner achieves state-of-the-art performance on the evaluated
+            open benchmark, attaining success rates of 90.1% in simulated cluttered environments and
+            72.0% in indoor simulations. The performance is further proven by demonstrating zero-shot
+            transferability to realistic experimentation in both 2D and 3D scenes. The dataset and
+            pre-trained models will also be open-sourced.
+          </p>
+        </div>
+      </section>
+
+      <section class="content-section split" id="method">
+        <div class="section-heading">
+          <p>Method</p>
+          <h2>Generate smooth paths, then select the safe one</h2>
+        </div>
+        <div class="method-body">
+          <div class="method-grid">
+            <article>
+              <span class="step">01</span>
+              <h3>Condition Encoding</h3>
+              <p>Encode depth history, relative point goals, and previous velocity into one planning context.</p>
+            </article>
+            <article>
+              <span class="step">02</span>
+              <h3>B-Spline Space</h3>
+              <p>Represent local trajectories with eight clamped cubic B-spline control points.</p>
+            </article>
+            <article>
+              <span class="step">03</span>
+              <h3>Diffusion Policy</h3>
+              <p>Sample diverse candidate trajectories directly in the compact control-point space.</p>
+            </article>
+            <article>
+              <span class="step">04</span>
+              <h3>Geometric Critic</h3>
+              <p>Rank candidates with ESDF clearance and path-efficiency costs before execution.</p>
+            </article>
+          </div>
+          <figure class="method-figure" aria-label="Overview of the SanD-Planner method">
+            <img
+              class="paper-image method-paper-image"
+              src="https://arxiv.org/html/2602.00923v1/Images/overview_new.png"
+              alt="Overview figure of SanD-Planner from the paper"
+            />
+            <figcaption>
+              SanD-Planner fuses depth observations, relative goals, and previous motion context to
+              generate and select smooth local navigation trajectories.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="content-section spline-section" id="spline-why">
+        <div class="section-heading">
+          <p>Trajectory Representation</p>
+          <h2>Why B-spline Control Points?</h2>
+        </div>
+        <div class="spline-lab" data-spline-lab>
+          <div class="spline-comparison-grid" aria-label="Trajectory representation comparison">
+            <article class="spline-canvas-card" data-spline-panel="waypoints">
+              <div class="spline-card-topline">
+                <div>
+                  <span>Waypoints</span>
+                  <p>Compact, but not inherently smooth.</p>
+                </div>
+                <div class="spline-card-metrics">
+                  <span>Near Δ <strong data-card-near="waypoints">0.0</strong></span>
+                  <span>Full Δ <strong data-card-full="waypoints">0.0</strong></span>
+                </div>
+              </div>
+              <svg
+                class="spline-svg"
+                viewBox="0 50 760 330"
+                role="img"
+                aria-label="Waypoint trajectory representation"
+                data-spline-svg="waypoints"
+              >
+                <rect class="spline-grid-bg" width="760" height="430" rx="16" />
+                <g class="spline-grid-lines" data-grid-lines aria-hidden="true"></g>
+                <path class="spline-reference" data-reference-path />
+                <rect class="near-horizon-region" x="42" y="216" width="260" height="126" rx="24" />
+                <path class="near-horizon-glow" data-near-horizon-path />
+                <g class="spline-ghosts" data-ghost-curves></g>
+                <path class="control-polygon" data-control-polygon />
+                <path class="main-curve" data-main-curve />
+                <g class="spline-obstacles" data-obstacles aria-hidden="true"></g>
+                <g class="spline-points" data-spline-points></g>
+                <circle class="start-marker" data-start-marker r="7" />
+                <path class="goal-marker" data-goal-marker />
+              </svg>
+            </article>
+
+            <article class="spline-canvas-card" data-spline-panel="cubic">
+              <div class="spline-card-topline">
+                <div>
+                  <span>Cubic Spline</span>
+                  <p>Smooth interpolation, but distal noise can distort the curve globally.</p>
+                </div>
+                <div class="spline-card-metrics">
+                  <span>Near Δ <strong data-card-near="cubic">0.0</strong></span>
+                  <span>Full Δ <strong data-card-full="cubic">0.0</strong></span>
+                </div>
+              </div>
+              <svg
+                class="spline-svg"
+                viewBox="0 50 760 330"
+                role="img"
+                aria-label="Interpolating cubic spline trajectory representation"
+                data-spline-svg="cubic"
+              >
+                <rect class="spline-grid-bg" width="760" height="430" rx="16" />
+                <g class="spline-grid-lines" data-grid-lines aria-hidden="true"></g>
+                <path class="spline-reference" data-reference-path />
+                <rect class="near-horizon-region" x="42" y="216" width="260" height="126" rx="24" />
+                <path class="near-horizon-glow" data-near-horizon-path />
+                <g class="spline-ghosts" data-ghost-curves></g>
+                <path class="control-polygon" data-control-polygon />
+                <path class="main-curve" data-main-curve />
+                <g class="spline-obstacles" data-obstacles aria-hidden="true"></g>
+                <g class="spline-points" data-spline-points></g>
+                <circle class="start-marker" data-start-marker r="7" />
+                <path class="goal-marker" data-goal-marker />
+              </svg>
+            </article>
+
+            <article class="spline-canvas-card" data-spline-panel="bspline">
+              <div class="spline-card-topline">
+                <div>
+                  <span>B-spline</span>
+                  <p>Smooth control-point representation with local support and stable near-horizon execution.</p>
+                </div>
+                <div class="spline-card-metrics">
+                  <span>Near Δ <strong data-card-near="bspline">0.0</strong></span>
+                  <span>Full Δ <strong data-card-full="bspline">0.0</strong></span>
+                </div>
+              </div>
+              <svg
+                class="spline-svg"
+                viewBox="0 50 760 330"
+                role="img"
+                aria-label="Clamped cubic B-spline trajectory representation"
+                data-spline-svg="bspline"
+              >
+                <rect class="spline-grid-bg" width="760" height="430" rx="16" />
+                <g class="spline-grid-lines" data-grid-lines aria-hidden="true"></g>
+                <path class="spline-reference" data-reference-path />
+                <rect class="near-horizon-region" x="42" y="216" width="260" height="126" rx="24" />
+                <path class="near-horizon-glow" data-near-horizon-path />
+                <g class="spline-ghosts" data-ghost-curves></g>
+                <path class="control-polygon" data-control-polygon />
+                <path class="main-curve" data-main-curve />
+                <g class="spline-obstacles" data-obstacles aria-hidden="true"></g>
+                <g class="spline-points" data-spline-points></g>
+                <circle class="start-marker" data-start-marker r="7" />
+                <path class="goal-marker" data-goal-marker />
+              </svg>
+            </article>
+          </div>
+
+          <aside class="spline-panel" aria-label="Trajectory representation controls">
+            <div>
+              <p class="panel-eyebrow">Interactive Fig. 3</p>
+            </div>
+
+            <div class="spline-insight-card">
+              <p>Why B-spline representation helps imitation learning</p>
+              <ul>
+                <li><strong>Smooth by design:</strong> spline continuity becomes an inductive bias rather than something learned from data.</li>
+                <li><strong>Stable execution:</strong> local support isolates distant prediction noise, limiting compounding errors for long-horizon imitation learning.</li>
+              </ul>
+            </div>
+
+            <div class="spline-actions">
+              <button class="button compact primary" type="button" data-perturb>
+                Perturb distal points
+              </button>
+              <button class="button compact ghost" type="button" data-reset>Reset</button>
+            </div>
+
+            <div class="spline-mini-chart" aria-label="Displacement along trajectory">
+              <div class="mini-chart-labels">
+                <span>s</span>
+                <span>distal</span>
+              </div>
+              <svg class="mini-chart-full" viewBox="0 0 240 72" aria-hidden="true">
+                <rect class="mini-chart-near-region" x="8" y="8" width="64" height="56" rx="8" />
+                <path class="mini-chart-line chart-waypoints" data-chart-line="waypoints" />
+                <path class="mini-chart-line chart-cubic" data-chart-line="cubic" />
+                <path class="mini-chart-line chart-bspline" data-chart-line="bspline" />
+                <line class="mini-chart-horizon" x1="72" y1="8" x2="72" y2="64" />
+                <path class="mini-chart-bracket" d="M 72 66 H 12" />
+              </svg>
+              <div class="horizon-zoom-labels">
+                <span>start</span>
+                <span>near-horizon zoom</span>
+              </div>
+              <svg class="mini-chart-zoom" viewBox="0 0 240 68" aria-hidden="true">
+                <rect class="mini-chart-near-region" x="8" y="7" width="224" height="54" rx="8" />
+                <path class="mini-chart-line chart-waypoints" data-chart-zoom-line="waypoints" />
+                <path class="mini-chart-line chart-cubic" data-chart-zoom-line="cubic" />
+                <path class="mini-chart-line chart-bspline" data-chart-zoom-line="bspline" />
+                <line class="mini-chart-horizon" x1="228" y1="7" x2="228" y2="61" />
+              </svg>
+            </div>
+
+            <div class="spline-metric-note">
+              <p><strong>Near Δ</strong> and <strong>Full Δ</strong> compare the perturbed trajectory with the original fit.</p>
+              <p>Waypoints can keep Near Δ near zero under distal-only perturbations; their limitation is the visible kinked, non-smooth execution.</p>
+            </div>
+
+            <div class="spline-drag-guide" aria-label="Draggable point legend">
+              <div class="drag-guide-title">
+                <span aria-hidden="true">☝️</span>
+                <strong>please drag me</strong>
+              </div>
+              <div class="drag-guide-row">
+                <span class="legend-node is-draggable" aria-hidden="true"></span>
+                <span>draggable control point</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="content-section video-section" id="videos">
+        <div class="section-heading">
+          <p>Videos</p>
+          <h2>Simulation and real-world demos</h2>
+        </div>
+        <div class="video-stack">
+          <section class="demo-gallery" aria-labelledby="simulationDemosTitle">
+            <div class="demo-gallery-header">
+              <div>
+                <p>Simulation</p>
+                <h3 id="simulationDemosTitle">Simulation demos</h3>
+              </div>
+              <div class="demo-gallery-meta" aria-label="Simulation demo summary">
+                <span>8 videos</span>
+                <span>ClutteredEnv + InternScenes</span>
+              </div>
+            </div>
+            <div class="demo-gallery-grid">
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-clutter-01.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-02.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-03.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-04.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-06.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-07.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-08.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+              <article class="demo-card">
+                <div class="demo-video-frame">
+                  <video class="demo-video" src="./assets/videos/simulation-indoor-09.mp4" controls muted preload="metadata" playsinline></video>
+                  <span class="demo-tag">SIM</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="demo-gallery real-world-gallery" aria-labelledby="realWorldDemosTitle">
+            <div class="demo-gallery-header">
+              <div>
+                <p>Real World</p>
+                <h3 id="realWorldDemosTitle">Real-world demos</h3>
+              </div>
+              <div class="demo-gallery-meta" aria-label="Real-world demo status">
+                <span>main demo</span>
+                <span>theme groups</span>
+              </div>
+            </div>
+            <article class="real-feature-card">
+              <div class="real-feature-video">
+                <video class="demo-video" src="./assets/videos/real-world-main-01.mp4" controls muted preload="metadata" playsinline></video>
+                <span class="demo-tag real-tag">REAL</span>
+              </div>
+              <div class="real-feature-copy">
+                <p>Deployment</p>
+                <h4>Unitree Go2 real-world deployment</h4>
+                <div class="real-feature-chips" aria-label="Real-world deployment highlights">
+                  <span>Zero-shot transfer</span>
+                  <span>Depth-only</span>
+                  <span>No real-world fine-tuning</span>
+                </div>
+                <p class="real-feature-note">Physical deployment highlights sim-to-real navigation on Unitree Go2 under depth-only local planning.</p>
+              </div>
+            </article>
+            <div class="real-theme-groups" aria-label="Real-world themed demo videos">
+              <article class="real-theme-group is-wide">
+                <div class="real-theme-head">
+                  <h4>Unseen cluttered Env</h4>
+                </div>
+                <div class="real-theme-video-grid">
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-clutter-01.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-clutter-02.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-clutter-03.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                </div>
+              </article>
+              <article class="real-theme-group is-medium">
+                <div class="real-theme-head">
+                  <h4>10Hz replanning enables up to 1m/s navigation</h4>
+                </div>
+                <div class="real-theme-video-grid">
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-replanning-01.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-replanning-02.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                </div>
+              </article>
+              <article class="real-theme-group is-compact">
+                <div class="real-theme-head">
+                  <h4>Depth-only stair climbing</h4>
+                </div>
+                <div class="real-theme-video-grid">
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-stair-01.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                </div>
+              </article>
+              <article class="real-theme-group is-half">
+                <div class="real-theme-head">
+                  <h4>Dynamic avoidance</h4>
+                </div>
+                <div class="real-theme-video-grid">
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-dynamic-01.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                </div>
+              </article>
+              <article class="real-theme-group is-half">
+                <div class="real-theme-head">
+                  <h4>Tighter-clearance traversal under a low overhang</h4>
+                </div>
+                <div class="real-theme-video-grid">
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-overhang-01.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                </div>
+              </article>
+              <article class="real-theme-group is-wide">
+                <div class="real-theme-head">
+                  <h4>Navigation in the dark</h4>
+                </div>
+                <div class="real-theme-video-grid">
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-dark-01.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-dark-02.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                  <div class="real-mini-video-frame">
+                    <video class="demo-video" src="./assets/videos/real-world-dark-03.mp4" controls muted preload="metadata" playsinline></video>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="content-section" id="results">
+        <div class="section-heading">
+          <p>Results</p>
+          <h2>Main findings</h2>
+          <p class="results-highlight">B-spline control points turn diffusion-based imitation learning into a sample-efficient and robust local planner.</p>
+        </div>
+        <div class="results-layout">
+          <div class="chart-panel results-benchmark-card" aria-label="Simulation benchmark scenes and key reported metrics for SanD-Planner">
+            <div class="benchmark-scenes" aria-label="Simulation benchmark scenes">
+              <article class="scene-card">
+                <div class="scene-thumb scene-clutter" role="img" aria-label="ClutteredEnv geometric obstacle layout"></div>
+                <div>
+                  <span>ClutteredEnv</span>
+                  <p>Geometric obstacle layouts</p>
+                </div>
+              </article>
+              <article class="scene-card">
+                <div class="scene-thumb scene-intern" role="img" aria-label="InternScenes photorealistic indoor environment"></div>
+                <div>
+                  <span>InternScenes</span>
+                  <p>Photorealistic indoor settings</p>
+                </div>
+              </article>
+              <a class="benchmark-cite" href="https://arxiv.org/abs/2505.08712" target="_blank" rel="noreferrer">
+                InternNav Benchmark · NavDP 2025
+              </a>
+              <p class="benchmark-reference">
+                Cai W, Peng J, Yang Y, et al. NavDP: Learning sim-to-real navigation diffusion policy with privileged information guidance. arXiv preprint arXiv:2505.08712, 2025.
+              </p>
+            </div>
+            <div class="metric-bars" role="img" aria-label="ClutteredEnv success rate 90.1, InternScenes success rate 72.0, demonstration scale 0.25 percent">
+              <div class="bar-row">
+                <span>ClutteredEnv SR</span>
+                <div class="bar-track"><span class="bar clutter"></span></div>
+                <strong>90.1</strong>
+              </div>
+              <div class="bar-row">
+                <span>InternScenes SR</span>
+                <div class="bar-track"><span class="bar indoor"></span></div>
+                <strong>72.0</strong>
+              </div>
+              <div class="bar-row">
+                <span>Demo scale</span>
+                <div class="bar-track"><span class="bar scale"></span></div>
+                <strong>0.25%</strong>
+              </div>
+            </div>
+          </div>
+          <div class="result-notes">
+            <article>
+              <h3>Sample efficiency</h3>
+              <p>Strong performance is reported with 500 expert episodes, far below the baseline demonstration scale.</p>
+            </article>
+            <article>
+              <h3>Zero-shot sim-to-real</h3>
+              <p>The policy transfers to realistic 2D and 3D navigation scenes without real-world fine-tuning.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="citation">
+        <div class="section-heading">
+          <p>Citation</p>
+          <h2>BibTeX</h2>
+        </div>
+        <div class="citation-box">
+          <pre><code id="bibtex">@article{wang2026sand,
+  title={SanD-Planner: Sample-Efficient Diffusion Planner in B-Spline Space for Robust Local Navigation},
+  author={Wang, Jincheng and Bao, Lingfan and Yang, Tong and Plasencia, Diego Martinez and Jiao, Jianhao and Kanoulas, Dimitrios},
+  journal={arXiv preprint arXiv:2602.00923},
+  year={2026}
+}</code></pre>
+          <button class="button compact" id="copyBibtex" type="button">
+            <i data-lucide="copy" aria-hidden="true"></i>
+            Copy
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Designed by Jincheng Wang · SanD-Planner · RSS 2026</p>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="./script.js?v=waypoint-note-1"></script>
+  </body>
+</html>
