@@ -308,6 +308,7 @@ h1 {
 
 .author-list {
   display: flex;
+  align-items: baseline;
   flex-wrap: wrap;
   gap: 10px 16px;
   margin-top: 28px;
@@ -323,7 +324,6 @@ h1 {
 
 .author-list a.author-entry {
   position: relative;
-  padding-right: 0.1em;
   text-decoration: none;
 }
 
@@ -335,14 +335,15 @@ h1 {
 
 .author-note {
   color: #7f8794;
-  font-size: 0.5em;
+  font-size: 0.86em;
   font-style: italic;
   font-weight: 500;
   letter-spacing: 0;
+  line-height: 1;
   opacity: 0.68;
-  position: relative;
-  top: -0.45em;
-  margin-left: 3px;
+  position: absolute;
+  left: calc(100% - 1px);
+  top: -0.58em;
   text-decoration: none;
 }
 
